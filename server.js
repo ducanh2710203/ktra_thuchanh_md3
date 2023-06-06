@@ -1,20 +1,23 @@
 const http = require('http');
 const url = require('url');
-const fs = require("fs");
-const router = require("./src/router/web.router")
-const home = require("./src/controllers/home")
-const PORT = 2000
 
-const Server = http.createServer((req, res) => {
+const homestayController = require('./src/controller/homestay.controller');
+const GeneralController = require('./src/controller/general.controller');
 
-    let urlPath = url.parse(req.url).pathname;
+const PORT = 3233;
 
-        let chooseRouter;
-        chooseRouter = ((typeof router[urlPath]) !== "undefined") ? router[urlPath] : home.getNotFoundPage;
-        chooseRouter(req, res)
-});
+const server = http.createServer((req, res) => {
+    let pathUrl = url.parse(req.url).pathname;
+    let chosenRouter = (typeof router[pathUrl] !== 'undefined') ? router[pathUrl] : GeneralController.handlerNotFound;
+    chosenRouter(req, res).catch(err => console.log(err.message));
+})
 
-Server.listen(PORT, 'localhost', () => {
-    console.log('Server is running at http://localhost:2000');
-});
+router = {
+    '/': homestayController.getDisplayHomestayPage,
+    '/detail': homestayController.getDetailPage,
+    '/add': homestayController.addHomestay,
+    '/update': homestayController.updateHomestay,
+    '/delete': homestayController.deleteHomestay
+}
 
+server.listen(PORT, 'localhost', () => console.log(`Server is running at http://localhost:${PORT}`))

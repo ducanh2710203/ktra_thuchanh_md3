@@ -1,31 +1,21 @@
 const mysql = require('mysql');
 
 class DatabaseModel {
-    static connectDatabase() {
+    constructor() {
+        this.host = 'localhost';
+        this.user = 'root';
+        this.password = '123456';
+        this.database = 'QuanLyHomestay';
+    }
+
+    connect() {
         return mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'S300pmu1',
-            database: 'englishWeb',
-            charset: 'utf8_general_ci'
-        });
+            host: this.host,
+            user: this.user,
+            password: this.password,
+            database: this.database
+        })
     }
-
-    static querySql(sql) {
-        return new Promise((resolve, reject) => {
-            this.connectDatabase().query(sql, (err, data) => {
-                if (err) {
-                    reject(err.message);
-                }
-
-                else {
-                    console.log(data)
-                    resolve(data);
-                }
-            });
-        });
-    }
-
 }
 
-module.exports = DatabaseModel;
+module.exports = new DatabaseModel;
