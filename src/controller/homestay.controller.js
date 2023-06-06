@@ -12,7 +12,7 @@ class HomeStayController {
             data.forEach((homestay,index) => {
                 newHtml += `<tr>`;
                 newHtml += `<td>${index + 1}</td>`;
-                newHtml += `<td><a href='/detail?id=${homestay.id}'>${homestay.name}</a></td>`;
+                newHtml += `<td>${homestay.name}</td>`;
                 newHtml += `<td>${homestay.nameCity}</td>`;
                 newHtml += `<td>${homestay.price}</td>`;
                 newHtml += `<td>
@@ -28,28 +28,28 @@ class HomeStayController {
         }
     }
 
-    static async getDetailPage(req, res) {
-        let query = qs.parse(url.parse(req.url).query);
-        if (query.id && req.method == 'GET') {
-            let data = await homestayModel.getDetailHomestay(+query.id);
-            let {id, name, num_bedroom, num_badroom, price, descript, idCity, nameCity} = data[0];
-            let html = await BaseController.readFileData('./src/views/detail.html');
-            let newHtml = '';
-            newHtml += `<button class='btn btn-primary'><a href='/update?id=${id}'class="text-decoration-none" style="color: white;">Sửa</a></button>
-            <button class='btn btn-danger'><a href='/delete?id=${id}'class="text-decoration-none" style="color: white;">Xóa</a></button>`
-            html = html.replace('{name1}', name);
-            html = html.replace('{name2}', name);
-            html = html.replace('{city}', nameCity);
-            html = html.replace('{num_bedroom}', num_bedroom);
-            html = html.replace('{num_badroom}', num_badroom);
-            html = html.replace('{price}', price);
-            html = html.replace('{descript}', descript);
-            html = html.replace('{btn-content}', newHtml);
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(html);
-            res.end();
-        }
-    }
+    // static async getDetailPage(req, res) {
+    //     let query = qs.parse(url.parse(req.url).query);
+    //     if (query.id && req.method == 'GET') {
+    //         let data = await homestayModel.getDetailHomestay(+query.id);
+    //         let {id, name, num_bedroom, num_badroom, price, descript, idCity, nameCity} = data[0];
+    //         let html = await BaseController.readFileData('./src/views/detail.html');
+    //         let newHtml = '';
+    //         newHtml += `<button class='btn btn-primary'><a href='/update?id=${id}'class="text-decoration-none" style="color: white;">Sửa</a></button>
+    //         <button class='btn btn-danger'><a href='/delete?id=${id}'class="text-decoration-none" style="color: white;">Xóa</a></button>`
+    //         html = html.replace('{name1}', name);
+    //         html = html.replace('{name2}', name);
+    //         html = html.replace('{city}', nameCity);
+    //         html = html.replace('{num_bedroom}', num_bedroom);
+    //         html = html.replace('{num_badroom}', num_badroom);
+    //         html = html.replace('{price}', price);
+    //         html = html.replace('{descript}', descript);
+    //         html = html.replace('{btn-content}', newHtml);
+    //         res.writeHead(200, {'Content-Type': 'text/html'});
+    //         res.write(html);
+    //         res.end();
+    //     }
+    // }
 
     static async addHomestay(req, res) {
         if (req.method == 'GET') {
