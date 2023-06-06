@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.22",
+    "qs": "^6.11.2",
+    "url": "^0.11.0"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
